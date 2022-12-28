@@ -26,7 +26,15 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required',
+            'cedula'=> 'required|unique:articulos,cedula',
+            'descripcion'=> 'required'
+
+        ]);
         $articulo = new Articulo();
+        $articulo->nombre= $request->nombre;
+        $articulo->cedula = $request->cedula;
         $articulo->descripcion = $request->descripcion;
         $articulo->precio = $request->precio;
         $articulo->stock=$request->stock;
@@ -55,7 +63,16 @@ class ArticuloController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required',
+            //'cedula'=> 'required|unique:articulos,cedula',
+            "cedula"=> "required|unique:articulos,cedula,".$this->route('articulos')->id,
+            'descripcion'=> 'required'
+
+        ]);
         $articulo =  Articulo::findOrFail($request->id);
+        $articulo->nombre= $request->nombre;
+        $articulo->cedula = $request->cedula;
         $articulo->descripcion = $request->descripcion;
         $articulo->precio = $request->precio;
         $articulo->stock=$request->stock;

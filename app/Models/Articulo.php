@@ -9,5 +9,5 @@ class Articulo extends Model
 {
     use HasFactory;
     //protected $table = "apirestlaravel";
-    protected $fillable = ['descripcion', 'precio', 'stock'];
+    protected $fillable = ['nombre','cedula','descripcion', 'precio', 'stock'];
 }
