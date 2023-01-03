@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('articulos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('cedula')->unique();
+            $table->string('cedula');
             $table->string('descripcion');
             $table->float('precio');
             $table->integer('stock');

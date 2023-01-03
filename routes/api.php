@@ -25,6 +25,7 @@ Route::put('articulos/{id}',[ArticuloController::class,'update']);
 Route::delete('articulos/{id}',[ArticuloController::class,'destroy']); */
 Route::get('/articulos', [ArticuloController::class,'index']); //muestra todos los registros
 Route::post('/articulos', [ArticuloController::class,'store']); // crea un registro
-Route::put('/articulos/{id}', [ArticuloController::class,'update']); // actualiza un registro
-Route::delete('/articulos/{id}', [ArticuloController::class,'destroy']); //elimina un registro
+Route::get('/articulos/{articulo}', [ArticuloController::class,'show']); // actualiza un registro
+Route::put('/articulos/{articulo}', [ArticuloController::class,'update']);
+Route::delete('/articulos/{articulo}', [ArticuloController::class,'destroy']); //elimina un registro
 

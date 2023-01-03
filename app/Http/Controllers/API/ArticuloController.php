@@ -15,7 +15,9 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        return Articulo::all();
+
+        $articulos = Articulo::all();
+        return response()->json($articulos);
     }
 
     /**
@@ -26,12 +28,12 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        /* $request->validate([
             'nombre' => 'required',
             'cedula'=> 'required|unique:articulos,cedula',
             'descripcion'=> 'required'
 
-        ]);
+        ]); */
         $articulo = new Articulo();
         $articulo->nombre= $request->nombre;
         $articulo->cedula = $request->cedula;
@@ -40,6 +42,12 @@ class ArticuloController extends Controller
         $articulo->stock=$request->stock;
 
         $articulo->save();
+        $data = [
+            'message' => 'Articulos creados correctamente',
+            'Articulo' => $articulo
+        ];
+
+        return response()->json($data);
 
     }
 
@@ -49,9 +57,9 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Articulo $articulo)
     {
-        //
+        return response()->json($articulo);
     }
 
     /**
@@ -61,16 +69,16 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Articulo $articulo)
     {
-        $request->validate([
+        /* $request->validate([
             'nombre' => 'required',
-            //'cedula'=> 'required|unique:articulos,cedula',
+
             "cedula"=> "required|unique:articulos,cedula,".$this->route('articulos')->id,
             'descripcion'=> 'required'
 
-        ]);
-        $articulo =  Articulo::findOrFail($request->id);
+        ]); */
+        //$articulo = Articulo::findOrFail($request->id);
         $articulo->nombre= $request->nombre;
         $articulo->cedula = $request->cedula;
         $articulo->descripcion = $request->descripcion;
@@ -78,7 +86,11 @@ class ArticuloController extends Controller
         $articulo->stock=$request->stock;
 
         $articulo->save();
-        return $articulo;
+        $data = [
+            'message' => 'Articulos Actualizado correctamente',
+            'Articulo' => $articulo
+        ];
+        return response()->json($data);
 
     }
 
@@ -88,9 +100,14 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Articulo $articulo)
     {
-        $articulo = $articulo=Articulo::destroy($request->id);
-        return $articulo;
+        $articulo->delete();
+            $data = [
+                'message' => 'Articulo eliminado :( ' ,
+                'Articulo' => $articulo
+        ];
+
+        return response()->json($data);
     }
 }
