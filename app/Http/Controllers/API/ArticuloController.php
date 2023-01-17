@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ActualizarArticuloRequest;
+use App\Http\Requests\GuardarArticuloRequest;
 use App\Models\Articulo;
 use Illuminate\Http\Request;
 
@@ -26,28 +28,19 @@ class ArticuloController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GuardarArticuloRequest $request)
     {
-        /* $request->validate([
-            'nombre' => 'required',
-            'cedula'=> 'required|unique:articulos,cedula',
-            'descripcion'=> 'required'
 
-        ]); */
-        $articulo = new Articulo();
-        $articulo->nombre= $request->nombre;
-        $articulo->cedula = $request->cedula;
-        $articulo->descripcion = $request->descripcion;
-        $articulo->precio = $request->precio;
-        $articulo->stock=$request->stock;
-
-        $articulo->save();
-        $data = [
+       Articulo::create($request->all());
+       /*  $data = [
             'message' => 'Articulos creados correctamente',
-            'Articulo' => $articulo
-        ];
+            'Articulo' => $request
+        ]; */
 
-        return response()->json($data);
+        return response()->json([
+            'res'=> true,
+            'msg'=> 'Articulo guardado correctamente'
+        ],200);
 
     }
 
@@ -69,28 +62,20 @@ class ArticuloController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Articulo $articulo)
+    public function update(ActualizarArticuloRequest $request, Articulo $articulo)
     {
-        /* $request->validate([
-            'nombre' => 'required',
 
-            "cedula"=> "required|unique:articulos,cedula,".$this->route('articulos')->id,
-            'descripcion'=> 'required'
 
-        ]); */
-        //$articulo = Articulo::findOrFail($request->id);
-        $articulo->nombre= $request->nombre;
-        $articulo->cedula = $request->cedula;
-        $articulo->descripcion = $request->descripcion;
-        $articulo->precio = $request->precio;
-        $articulo->stock=$request->stock;
 
-        $articulo->save();
-        $data = [
+        $articulo->update($request->all());
+        /* $data = [
             'message' => 'Articulos Actualizado correctamente',
             'Articulo' => $articulo
-        ];
-        return response()->json($data);
+        ]; */
+        return response()->json([
+            'res'=> true,
+            'msg'=> 'Articulo actualizado correctamente'
+        ],200);
 
     }
 
